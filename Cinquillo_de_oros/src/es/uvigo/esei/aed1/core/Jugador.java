@@ -9,5 +9,16 @@ package es.uvigo.esei.aed1.core;
 
 
 public class Jugador {
+    
+    private String nombre;
+    private Carta [] mano;
 
+    public Jugador(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+    
 }

@@ -5,11 +5,31 @@
  */
 
 package es.uvigo.esei.aed1.core;
+import java.util.*;
 
 
 public class Baraja {
-
     
+    Carta.Palos palos [] = Carta.Palos.values();
+    Stack<Carta> baraja = new Stack<>();
+    
+    
+    public Baraja(){
+        for (int i = 1; i <= 12; i++) {
+            for (int j = 0; j < 4; j++) {
+                    this.baraja.push(new Carta(i, palos[j]));
+            }
+        }
+            
+    }
+    
+    public void barajarBaraja(){
+        Collections.shuffle(this.baraja);
+    }
+    
+    public Carta sacarCartaDeArriba(){
+        return baraja.pop();
+    }
     
    
 }

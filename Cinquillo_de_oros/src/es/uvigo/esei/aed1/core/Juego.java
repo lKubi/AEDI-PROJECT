@@ -6,20 +6,29 @@
 package es.uvigo.esei.aed1.core;
 
 import es.uvigo.esei.aed1.iu.IU;
+import java.util.*;
 
 
 public class Juego{
-  private final IU iu;
+    private final IU iu;
     
     
-public Juego(IU iu){
-    this.iu = iu;
+    public Juego(IU iu){
+        this.iu = iu;
 
-}
+    }
 
-public void jugar(){
-    
-}
+    public void jugar(){
+        Baraja laBaraja = new Baraja();
+        Jugador [] jugadores;
+        Collection<String> nombresJugadores = iu.pedirDatosJugadores();
+        jugadores = new Jugador[nombresJugadores.size()];
+        int numJugadores = 0;
+        for(String nombre : nombresJugadores){
+            jugadores[numJugadores] = new Jugador(nombre);
+            numJugadores++;
+        }
+    }
 
         
     

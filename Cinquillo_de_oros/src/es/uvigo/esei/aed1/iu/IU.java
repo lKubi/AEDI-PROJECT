@@ -6,9 +6,7 @@
 package es.uvigo.esei.aed1.iu;
 
 import es.uvigo.esei.aed1.core.Jugador;
-import java.util.Collection;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.*;
 
 public class IU {
     private final Scanner teclado;
@@ -58,11 +56,30 @@ public class IU {
 
     public Collection<String> pedirDatosJugadores(){
 
-
+        int jugadores = 0;
+        boolean esValido;
+        
+        do{
+            esValido = true;
+            System.out.println("¿Cuántos jugadores van a jugar? (3 o 4): ");
+            try{
+                jugadores = Integer.parseInt(teclado.nextLine());
+            }catch(NumberFormatException e){
+                System.out.println(e.getMessage());
+                esValido = false;
+            }
+        }while(jugadores != 3 && jugadores != 4);
+        
+        Collection<String> nombresJugadores = new ArrayList<>();
+        
+        for (int i = 0; i < jugadores; i++) {
+            System.out.println("Introduce el nombre del jugador " + (i+1) + ": ");
+            nombresJugadores.add(teclado.nextLine());
+        }
+        
+        return nombresJugadores;
 
     }
-
-
 
     public void mostrarJugador(Jugador jugador){
 
