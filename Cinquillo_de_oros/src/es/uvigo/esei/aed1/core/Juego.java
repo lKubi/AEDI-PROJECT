@@ -12,6 +12,7 @@ import java.util.*;
 public class Juego{
     private final IU iu;
     
+    List<Jugador> jugadores;
     
     public Juego(IU iu){
         this.iu = iu;
@@ -19,17 +20,38 @@ public class Juego{
     }
 
     public void jugar(){
+        //Creación de baraja y colección de nombres de los jugadores
         Baraja laBaraja = new Baraja();
-        Jugador [] jugadores;
-        Collection<String> nombresJugadores = iu.pedirDatosJugadores();
-        jugadores = new Jugador[nombresJugadores.size()];
-        int numJugadores = 0;
-        for(String nombre : nombresJugadores){
-            jugadores[numJugadores] = new Jugador(nombre);
-            numJugadores++;
-        }
-    }
-
+        Collection<String> nombresJugadores = iu.pedirDatosJugadores();     
+        int numJugadores = nombresJugadores.size();
         
-    
+        //Creación de la lista de objetos Jugadores
+        jugadores = new ArrayList<>();
+        for(String nombre : nombresJugadores){
+            jugadores.add(new Jugador(nombre));
+        }
+     
+        //Barajar y asignar la mano a cada jugador
+        laBaraja.barajarBaraja();
+        for(Jugador jugador : jugadores){
+            for (int i = 0; i < 48/numJugadores; i++) {
+                jugador.agregarCartaAMano(laBaraja.sacarCartaDeArriba());
+            }
+        }
+        
+        //Muestra en pantalla los jugadores y sus manos
+        int i = 1;
+        for(Jugador jugador : jugadores){
+            System.out.println("\nJugador " + i + ": " + jugador);
+            i++;
+        }
+        
+        //Se crea un numero random para seleccionar el jugador que empieza la partida
+        Random random = new Random();
+        int numeroAleatorio = random.nextInt(numJugadores) + 1;
+        
+        System.out.println("\nEmpieza la partida el jugador " + (numeroAleatorio+1) 
+                + ". Que es: " + jugadores.get(numeroAleatorio).getNombre());
+        
+    }
 }

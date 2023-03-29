@@ -15,18 +15,24 @@ public class Baraja {
     
     
     public Baraja(){
-        for (int i = 1; i <= 12; i++) {
-            for (int j = 0; j < 4; j++) {
-                    this.baraja.push(new Carta(i, palos[j]));
+        for (int i = 0; i < 4; i++) {
+            for (int j = 1; j <= 12; j++) {
+                    this.baraja.push(new Carta(j, palos[i]));
             }
         }
-            
     }
-    
+
+    /**
+     * Baraja la baraja
+     */
     public void barajarBaraja(){
         Collections.shuffle(this.baraja);
     }
     
+    /**
+     * Saca la carta de arriba de la pila de la baraja
+     * @return devuelve la carta de arriba y la saca de la pila
+     */
     public Carta sacarCartaDeArriba(){
         return baraja.pop();
     }

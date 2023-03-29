@@ -27,6 +27,13 @@ public class Carta {
         return palo;
     }
     
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        
+        sb.append(numero).append("/").append(palo);
+        
+        return sb.toString();
+    }
     
-
 }

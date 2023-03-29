@@ -53,27 +53,39 @@ public class IU {
     }
 
 
-
+    /**
+     * Pide la cantidad de jugadores y sus nombres
+     * 
+     * @return Una colección con el nombre de los jugadores
+     */
     public Collection<String> pedirDatosJugadores(){
 
-        int jugadores = 0;
+        int cantJugadores = 0;
         boolean esValido;
         
+        
+        //Compruebo que el dato introducido es valido
         do{
             esValido = true;
-            System.out.println("¿Cuántos jugadores van a jugar? (3 o 4): ");
+            System.out.println("Cuantos jugadores van a jugar? (3 o 4): ");
             try{
-                jugadores = Integer.parseInt(teclado.nextLine());
+                cantJugadores = Integer.parseInt(teclado.nextLine());
             }catch(NumberFormatException e){
-                System.out.println(e.getMessage());
+                System.out.println("El valor introducido debe ser 3 o 4");
                 esValido = false;
+                continue;
             }
-        }while(jugadores != 3 && jugadores != 4);
+            
+            if(cantJugadores != 3 && cantJugadores != 4){
+                System.out.println("El valor introducido debe ser 3 o 4.");
+            }
+        }while((cantJugadores != 3 && cantJugadores != 4) || !esValido);
         
+        //Creo la colección de los nombres de los jugadores y creo los objetos
         Collection<String> nombresJugadores = new ArrayList<>();
         
-        for (int i = 0; i < jugadores; i++) {
-            System.out.println("Introduce el nombre del jugador " + (i+1) + ": ");
+        for (int i = 1; i <= cantJugadores; i++) {
+            System.out.println("Introduce el nombre del jugador " + i + ": ");
             nombresJugadores.add(teclado.nextLine());
         }
         
