@@ -81,14 +81,26 @@ public class IU {
             }
         }while((cantJugadores != 3 && cantJugadores != 4) || !esValido);
         
-        //Creo la colección de los nombres de los jugadores y creo los objetos
-        Collection<String> nombresJugadores = new ArrayList<>();
+        //Creo la colección de los nombres de los jugadores
+        Collection<String> nombresJugadores = new LinkedList<>();
+        
+        String entrada;
         
         for (int i = 1; i <= cantJugadores; i++) {
             System.out.println("Introduce el nombre del jugador " + i + ": ");
-            nombresJugadores.add(teclado.nextLine());
+            
+            entrada = teclado.nextLine();
+            
+             // Compruebo que la cadena introducida no esté vacia
+            while(entrada.trim().equals("")){
+                System.out.print("\nLa cadena no puede estar vacia!\nIntroduce un nombre valido: ");
+                entrada = teclado.nextLine();
+            }
+            
+            //Añado el nombre a la colección
+            nombresJugadores.add(entrada);
+            
         }
-        
         return nombresJugadores;
 
     }

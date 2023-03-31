@@ -26,7 +26,7 @@ public class Juego{
         int numJugadores = nombresJugadores.size();
         
         //Creación de la lista de objetos Jugadores
-        jugadores = new ArrayList<>();
+        jugadores = new LinkedList<>();
         for(String nombre : nombresJugadores){
             jugadores.add(new Jugador(nombre));
         }
@@ -48,10 +48,11 @@ public class Juego{
         
         //Se crea un numero random para seleccionar el jugador que empieza la partida
         Random random = new Random();
+        
         int numeroAleatorio = random.nextInt(numJugadores) + 1;
         
-        System.out.println("\nEmpieza la partida el jugador " + (numeroAleatorio+1) 
-                + ". Que es: " + jugadores.get(numeroAleatorio).getNombre());
+        System.out.println("\nEmpieza la partida el jugador " + (numeroAleatorio) 
+                + ". Que es: " + jugadores.get(numeroAleatorio-1).getNombre());
         
     }
 }

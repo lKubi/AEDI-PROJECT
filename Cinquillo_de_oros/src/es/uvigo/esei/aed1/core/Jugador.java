@@ -16,7 +16,7 @@ public class Jugador {
 
     public Jugador(String nombre) {
         this.nombre = nombre;
-        this.mano = new ArrayList<>();
+        this.mano = new LinkedList<>();
     }
 
     public String getNombre() {
