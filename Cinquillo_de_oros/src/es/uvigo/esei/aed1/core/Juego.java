@@ -40,11 +40,8 @@ public class Juego{
         }
         
         //Muestra en pantalla los jugadores y sus manos
-        int i = 1;
-        for(Jugador jugador : jugadores){
-            System.out.println("\nJugador " + i + ": " + jugador);
-            i++;
-        }
+        
+        iu.mostrarJugadores(jugadores);
         
         //Se crea un numero random para seleccionar el jugador que empieza la partida
         Random random = new Random();

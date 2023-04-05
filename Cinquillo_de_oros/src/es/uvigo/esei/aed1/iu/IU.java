@@ -102,14 +102,20 @@ public class IU {
             
         }
         return nombresJugadores;
-
     }
 
     public void mostrarJugador(Jugador jugador){
+        System.out.println(jugador);
 
     }
 
     public void mostrarJugadores(Collection<Jugador> jugadores){
+        int i = 0;
+        for (Jugador jugador : jugadores) {
+            System.out.println("Jugador # " + (i+1));
+            System.out.println(jugador + "\n");
+            i++;
+        }
 
     }
    
