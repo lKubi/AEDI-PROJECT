@@ -41,7 +41,7 @@ public class Juego{
         
         //Muestra en pantalla los jugadores y sus manos
         
-        mostrarJugadores(jugadores);
+        iu.mostrarJugadores(jugadores);
         
         //Se crea un numero random para seleccionar el jugador que empieza la partida
         Random random = new Random();
