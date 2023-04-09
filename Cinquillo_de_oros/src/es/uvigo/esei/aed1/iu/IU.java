@@ -71,13 +71,13 @@ public class IU {
             try{
                 cantJugadores = Integer.parseInt(teclado.nextLine());
             }catch(NumberFormatException e){
-                System.out.println("El valor introducido debe ser 3 o 4");
+                System.err.println("El valor introducido debe ser 3 o 4.");
                 esValido = false;
                 continue;
             }
             
             if(cantJugadores != 3 && cantJugadores != 4){
-                System.out.println("El valor introducido debe ser 3 o 4.");
+                System.err.println("El valor introducido debe ser 3 o 4.");
             }
         }while((cantJugadores != 3 && cantJugadores != 4) || !esValido);
         
