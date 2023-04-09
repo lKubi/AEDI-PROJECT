@@ -6,9 +6,7 @@
 package es.uvigo.esei.aed1.iu;
 
 import es.uvigo.esei.aed1.core.Jugador;
-import java.util.Collection;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.*;
 
 public class IU {
     private final Scanner teclado;
@@ -55,20 +53,69 @@ public class IU {
     }
 
 
-
+    /**
+     * Pide la cantidad de jugadores y sus nombres
+     * 
+     * @return Una colección con el nombre de los jugadores
+     */
     public Collection<String> pedirDatosJugadores(){
 
-
-
+        int cantJugadores = 0;
+        boolean esValido;
+        
+        
+        //Compruebo que el dato introducido es valido
+        do{
+            esValido = true;
+            System.out.println("Cuantos jugadores van a jugar? (3 o 4): ");
+            try{
+                cantJugadores = Integer.parseInt(teclado.nextLine());
+            }catch(NumberFormatException e){
+                System.err.println("El valor introducido debe ser 3 o 4.");
+                esValido = false;
+                continue;
+            }
+            
+            if(cantJugadores != 3 && cantJugadores != 4){
+                System.err.println("El valor introducido debe ser 3 o 4.");
+            }
+        }while((cantJugadores != 3 && cantJugadores != 4) || !esValido);
+        
+        //Creo la colección de los nombres de los jugadores
+        Collection<String> nombresJugadores = new LinkedList<>();
+        
+        String entrada;
+        
+        for (int i = 1; i <= cantJugadores; i++) {
+            System.out.println("Introduce el nombre del jugador " + i + ": ");
+            
+            entrada = teclado.nextLine();
+            
+             // Compruebo que la cadena introducida no esté vacia
+            while(entrada.trim().equals("")){
+                System.out.print("\nLa cadena no puede estar vacia!\nIntroduce un nombre valido: ");
+                entrada = teclado.nextLine();
+            }
+            
+            //Añado el nombre a la colección
+            nombresJugadores.add(entrada);
+            
+        }
+        return nombresJugadores;
     }
 
-
-
     public void mostrarJugador(Jugador jugador){
+        System.out.println(jugador);
 
     }
 
     public void mostrarJugadores(Collection<Jugador> jugadores){
+        int i = 0;
+        for (Jugador jugador : jugadores) {
+            System.out.println("Jugador # " + (i+1));
+            System.out.println(jugador + "\n");
+            i++;
+        }
 
     }
    
