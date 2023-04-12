@@ -10,34 +10,40 @@ import java.util.*;
 
 
 public class Juego{
-    private final IU iu;
     
-    List<Jugador> jugadores;
+    private final IU iu;
+    Baraja laBaraja;
+    private List <Jugador> jugadores;
     
     public Juego(IU iu){
         this.iu = iu;
+        laBaraja = new Baraja();
+        jugadores = new LinkedList<>();
+        
 
     }
-
-    public void jugar(){
-        //Creación de baraja y colección de nombres de los jugadores
-        Baraja laBaraja = new Baraja();
-        Collection<String> nombresJugadores = iu.pedirDatosJugadores();     
-        int numJugadores = nombresJugadores.size();
-        
-        //Creación de la lista de objetos Jugadores
-        jugadores = new LinkedList<>();
-        for(String nombre : nombresJugadores){
-            jugadores.add(new Jugador(nombre));
-        }
-     
-        //Barajar y asignar la mano a cada jugador
+    
+    private void barajarYRepartir(int numJugadores){
         laBaraja.barajarBaraja();
         for(Jugador jugador : jugadores){
             for (int i = 0; i < 48/numJugadores; i++) {
                 jugador.agregarCartaAMano(laBaraja.sacarCartaDeArriba());
             }
+        }        
+    }
+
+    public void jugar(){
+        //Creación de baraja y colección de nombres de los jugadores
+        Collection<String> nombresJugadores = iu.pedirDatosJugadores();     
+        int numJugadores = nombresJugadores.size();
+        
+        //Creación de la lista de objetos Jugadores
+        for(String nombre : nombresJugadores){
+            jugadores.add(new Jugador(nombre));
         }
+     
+        //Barajar y asignar la mano a cada jugador
+        barajarYRepartir(numJugadores);
         
         //Muestra en pantalla los jugadores y sus manos
         

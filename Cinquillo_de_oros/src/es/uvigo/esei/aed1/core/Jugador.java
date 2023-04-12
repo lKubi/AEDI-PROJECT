@@ -23,9 +23,6 @@ public class Jugador {
         return nombre;
     }
 
-    public List<Carta> getMano() {
-        return mano;
-    }
     /**
      * Agrega una carta a la mano del jugador
      * @param c 
