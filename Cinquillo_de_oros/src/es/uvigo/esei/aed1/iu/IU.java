@@ -66,20 +66,11 @@ public class IU {
         
         //Compruebo que el dato introducido es valido
         do{
-            esValido = true;
-            System.out.println("Cuantos jugadores van a jugar? (3 o 4): ");
-            try{
-                cantJugadores = Integer.parseInt(teclado.nextLine());
-            }catch(NumberFormatException e){
-                System.err.println("El valor introducido debe ser 3 o 4.");
-                esValido = false;
-                continue;
-            }
-            
+            cantJugadores = leeNum("Cuantos jugadores van a jugar? (3 o 4): ");
             if(cantJugadores != 3 && cantJugadores != 4){
                 System.err.println("El valor introducido debe ser 3 o 4.");
             }
-        }while((cantJugadores != 3 && cantJugadores != 4) || !esValido);
+        }while(cantJugadores != 3 && cantJugadores != 4);
         
         //Creo la colección de los nombres de los jugadores
         Collection<String> nombresJugadores = new LinkedList<>();
