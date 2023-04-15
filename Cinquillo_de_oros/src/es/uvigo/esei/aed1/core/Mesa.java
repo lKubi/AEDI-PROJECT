@@ -5,14 +5,17 @@
 * Funcionalidad: saber si es posible colocar una carta en la mesa, colocar una carta en la mesa, mostrar la mesa
  */
 package es.uvigo.esei.aed1.core;
+import java.util.*;
 
 
 public class Mesa {
 
-	
+    // Array de deques que representa la mesa para cada palo
+    private Deque<Integer>[] mesa;
+    
     //constructor
     public Mesa(){
-     
+        mesa = new Deque[4];
     }
 
     //Añadir más funcionalidades
