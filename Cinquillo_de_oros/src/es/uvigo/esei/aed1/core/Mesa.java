@@ -20,11 +20,12 @@ public class Mesa {
     //Estas 2 cabeceras de funciones las añadí yo (Luis) para que se implementen, 
     //saco la idea de las funciones, de la cabecera de la clase
     
-    
+    //Saber si es posible colocar una carta en la mesa
 //    public boolean comprobarSiSePuedenPonerCartas(Jugador j){
 //        
 //    }
     
+    //colocar una carta en la mesa
 //    public void colocarCartaMesa(Carta c){
 //        
 //    }
