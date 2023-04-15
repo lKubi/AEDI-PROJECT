@@ -11,7 +11,7 @@ import java.util.*;
 public class Mesa {
 
     // Array de deques que representa la mesa para cada palo
-    private Deque<Integer>[] mesa;
+    private Deque<Carta>[] mesa;
     
     //constructor
     public Mesa(){
