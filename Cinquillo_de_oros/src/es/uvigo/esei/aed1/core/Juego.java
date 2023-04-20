@@ -31,7 +31,7 @@ public class Juego{
             }
         }        
     }
-
+     
     public void jugar(){
         //Creación de baraja y colección de nombres de los jugadores
         Collection<String> nombresJugadores = iu.pedirDatosJugadores();     

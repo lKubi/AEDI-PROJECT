@@ -6,39 +6,76 @@
  */
 package es.uvigo.esei.aed1.core;
 import java.util.*;
+import es.uvigo.esei.aed1.core.*;
 
 
 public class Mesa {
 
     // Array de deques que representa la mesa para cada palo
     private Deque<Carta>[] mesa;
+    private final int numPalos = 4;
     
     //constructor
     public Mesa(){
-        mesa = new Deque[4];
+        mesa = new Deque[numPalos];
     }
 
-    //Añadir más funcionalidades
+    public int getNumPalos() {
+        return numPalos;
+    }
     
-    //Estas 2 cabeceras de funciones las añadí yo (Luis) para que se implementen, 
-    //saco la idea de las funciones, de la cabecera de la clase
-    
-    //Saber si es posible colocar una carta en la mesa
-//    public boolean comprobarSiSePuedenPonerCartas(Jugador j){
-//        
-//    }
+    //Devuelve una lista con las posibles cartas a colocar
+    public List<Carta> getCartasCandidatas(Jugador j){
+        List <Carta> listaCartas = new LinkedList<>();
+        
+        for(Carta c : j.getMano()){
+            if(sePuedePonerCarta(c)){
+                listaCartas.add(c);
+            }
+        }
+        
+        return listaCartas;
+    }
+    //Comprueba si una carta se puede colocar en la mesa
+    public boolean sePuedePonerCarta(Carta c){
+        boolean toret = false;
+        int paloCarta = c.getPalo().ordinal();
+        int numeroArribaPalo = mesa[paloCarta].getFirst().getNumero();
+        int numeroAbajoPalo = mesa[paloCarta].getLast().getNumero();
+        
+        if(numeroArribaPalo == (c.getNumero() - 1)){
+            toret = true;
+        }else if(numeroAbajoPalo == (c.getNumero() + 1)){
+            toret = true;
+        }
+        return toret;
+    }
     
     //colocar una carta en la mesa
-//    public void colocarCartaMesa(Carta c){
-//        
-//    }
+    public void colocarCartaMesa(Carta c){
+
+        int paloCarta = c.getPalo().ordinal();
+        int numeroArribaPalo = mesa[paloCarta].getFirst().getNumero();
+        int numeroAbajoPalo = mesa[paloCarta].getLast().getNumero();
+        
+        if(numeroArribaPalo == (c.getNumero() - 1)){
+            mesa[paloCarta].addFirst(c);
+        }else if(numeroAbajoPalo == (c.getNumero() + 1)){
+            mesa[paloCarta].addLast(c);
+        }
+    }
 
     
     // mostrar el estado de la mesa
-//    @Override
-//    public String toString(){
-//        
-//    }
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < numPalos; i++) {
+            
+        }
+        
+        return sb.toString();
+    }
 	
     
 }
