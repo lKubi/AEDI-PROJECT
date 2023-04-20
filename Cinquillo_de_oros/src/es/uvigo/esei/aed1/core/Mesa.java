@@ -36,6 +36,7 @@ public class Mesa {
         
         return listaCartas;
     }
+    
     //Comprueba si una carta se puede colocar en la mesa
     public boolean sePuedePonerCarta(Carta c){
         boolean toret = false;
@@ -43,7 +44,9 @@ public class Mesa {
         int numeroArribaPalo = mesa[paloCarta].getFirst().getNumero();
         int numeroAbajoPalo = mesa[paloCarta].getLast().getNumero();
         
-        if(numeroArribaPalo == (c.getNumero() - 1)){
+        if(c.getNumero() == 5){
+            toret = true;
+        }else if(numeroArribaPalo == (c.getNumero() - 1)){
             toret = true;
         }else if(numeroAbajoPalo == (c.getNumero() + 1)){
             toret = true;
@@ -58,6 +61,9 @@ public class Mesa {
         int numeroArribaPalo = mesa[paloCarta].getFirst().getNumero();
         int numeroAbajoPalo = mesa[paloCarta].getLast().getNumero();
         
+        if(c.getNumero() == 5){
+            mesa[paloCarta].add(c);
+        }
         if(numeroArribaPalo == (c.getNumero() - 1)){
             mesa[paloCarta].addFirst(c);
         }else if(numeroAbajoPalo == (c.getNumero() + 1)){
@@ -69,9 +75,27 @@ public class Mesa {
     // mostrar el estado de la mesa
     @Override
     public String toString(){
-        StringBuilder sb = new StringBuilder();
+        
+        Carta [][] mesaMatriz = new Carta[12][4];
         for (int i = 0; i < numPalos; i++) {
-            
+            for(Carta c : mesa[i]){
+                    mesaMatriz [12 - c.getNumero()][c.getPalo().ordinal()] = c;
+            }
+        }
+        
+        Carta.Palos [] palos = Carta.Palos.values();
+        StringBuilder sb = new StringBuilder();
+ 
+        for (int i = 0; i < 12; i++) {
+            for (int j = 0; j < 4; j++) {
+                if (mesaMatriz[j][i] != null) {
+                    sb.append(mesaMatriz[j][i]);
+                }else{
+                    sb.append("###");
+                }
+                sb.append("\t");
+            }
+            sb.append("\n");
         }
         
         return sb.toString();
