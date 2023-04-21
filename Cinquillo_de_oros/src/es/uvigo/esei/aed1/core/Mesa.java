@@ -14,10 +14,14 @@ public class Mesa {
     // Array de deques que representa la mesa para cada palo
     private Deque<Carta>[] mesa;
     private final int numPalos = 4;
+    private final int numCartasPorPalo = 12;
     
     //constructor
     public Mesa(){
         mesa = new Deque[numPalos];
+        for (int i = 0; i < numPalos; i++) {
+            mesa[i] = new ArrayDeque<>();
+        }
     }
 
     public int getNumPalos() {
@@ -41,65 +45,81 @@ public class Mesa {
     public boolean sePuedePonerCarta(Carta c){
         boolean toret = false;
         int paloCarta = c.getPalo().ordinal();
-        int numeroArribaPalo = mesa[paloCarta].getFirst().getNumero();
-        int numeroAbajoPalo = mesa[paloCarta].getLast().getNumero();
         
-        if(c.getNumero() == 5){
-            toret = true;
-        }else if(numeroArribaPalo == (c.getNumero() - 1)){
-            toret = true;
-        }else if(numeroAbajoPalo == (c.getNumero() + 1)){
-            toret = true;
+        if(mesa[paloCarta].isEmpty()){
+            if(c.getNumero() == 5){
+                toret = true;
+            }
+        }else{
+            int numeroArribaPalo = mesa[paloCarta].getFirst().getNumero();
+            int numeroAbajoPalo = mesa[paloCarta].getLast().getNumero();
+            if(numeroArribaPalo == (c.getNumero() - 1)){
+                toret = true;
+            }else if(numeroAbajoPalo == (c.getNumero() + 1)){
+                toret = true;
+            }
         }
         return toret;
     }
     
     //colocar una carta en la mesa
     public void colocarCartaMesa(Carta c){
-
+        
         int paloCarta = c.getPalo().ordinal();
-        int numeroArribaPalo = mesa[paloCarta].getFirst().getNumero();
-        int numeroAbajoPalo = mesa[paloCarta].getLast().getNumero();
         
         if(c.getNumero() == 5){
-            mesa[paloCarta].add(c);
-        }
-        if(numeroArribaPalo == (c.getNumero() - 1)){
             mesa[paloCarta].addFirst(c);
-        }else if(numeroAbajoPalo == (c.getNumero() + 1)){
-            mesa[paloCarta].addLast(c);
+        }else{
+            int numeroArribaPalo = mesa[paloCarta].getFirst().getNumero();
+            int numeroAbajoPalo = mesa[paloCarta].getLast().getNumero();
+            
+            if(numeroArribaPalo == (c.getNumero() - 1)){
+                mesa[paloCarta].addFirst(c);
+            }else if(numeroAbajoPalo == (c.getNumero() + 1)){
+                mesa[paloCarta].addLast(c);
+            }
         }
+        
     }
 
     
     // mostrar el estado de la mesa
     @Override
-    public String toString(){
-        
-        Carta [][] mesaMatriz = new Carta[12][4];
+        public String toString(){
+
+        int [][] mesaMatriz = new int[numCartasPorPalo][numPalos];
         for (int i = 0; i < numPalos; i++) {
-            for(Carta c : mesa[i]){
-                    mesaMatriz [12 - c.getNumero()][c.getPalo().ordinal()] = c;
+            for (Carta c : mesa[i]) {
+                mesaMatriz[12 - c.getNumero()][c.getPalo().ordinal()] = c.getNumero();
             }
         }
-        
-        Carta.Palos [] palos = Carta.Palos.values();
+
         StringBuilder sb = new StringBuilder();
- 
-        for (int i = 0; i < 12; i++) {
-            for (int j = 0; j < 4; j++) {
-                if (mesaMatriz[j][i] != null) {
-                    sb.append(mesaMatriz[j][i]);
-                }else{
+        
+        Carta.Palos [] palos = Carta.Palos.values();        
+        
+        sb.append("\n\n");
+        
+        for(Carta.Palos p : palos){
+            sb.append(p.name()).append("\t");
+        }
+        
+        sb.append("\n");
+
+        for (int i = 0; i < numCartasPorPalo; i++) {
+            for (int j = 0; j < numPalos; j++) {
+                if (mesaMatriz[i][j] != 0) {
+                    sb.append(mesaMatriz[i][j]);
+                } else {
                     sb.append("###");
                 }
                 sb.append("\t");
             }
             sb.append("\n");
         }
-        
+
         return sb.toString();
     }
-	
+
     
 }
