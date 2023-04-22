@@ -10,13 +10,17 @@ import java.util.*;
 
 public class Baraja {
     
-    Carta.Palos palos [] = Carta.Palos.values();
-    Stack<Carta> baraja = new Stack<>();
+    private final Carta.Palos palos [] = Carta.Palos.values();
+    private final Stack<Carta> baraja;
     
+    private final int numPalos = 4;
+    private final int numCartasPorPalo = 12;
     
     public Baraja(){
-        for (int i = 0; i < 4; i++) {
-            for (int j = 1; j <= 12; j++) {
+        baraja = new Stack<>();
+        
+        for (int i = 0; i < numPalos; i++) {
+            for (int j = 1; j <= numCartasPorPalo; j++) {
                     this.baraja.push(new Carta(j, palos[i]));
             }
         }

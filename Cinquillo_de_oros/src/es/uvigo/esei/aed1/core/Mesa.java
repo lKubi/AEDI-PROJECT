@@ -11,12 +11,10 @@ import es.uvigo.esei.aed1.core.*;
 
 public class Mesa {
 
-    // Array de deques que representa la mesa para cada palo
     private Deque<Carta>[] mesa;
     private final int numPalos = 4;
     private final int numCartasPorPalo = 12;
     
-    //constructor
     public Mesa(){
         mesa = new Deque[numPalos];
         for (int i = 0; i < numPalos; i++) {
@@ -27,11 +25,18 @@ public class Mesa {
     public int getNumPalos() {
         return numPalos;
     }
-    
-    //Devuelve una lista con las posibles cartas a colocar
+
+    /**
+     * Metodo que devuelve las cartas que un jugador puede poner en la mesa actual
+     * @param j Jugador Actual
+     * @return Una lista con las cartas posibles a colocar
+     */
     public List<Carta> getCartasCandidatas(Jugador j){
+        //Creo una lista vacia
         List <Carta> listaCartas = new LinkedList<>();
         
+        //Por cada carta en la mano, voy comprobandosi se puede añadir o no
+        //Si se puede añadir, la agrego a la lista nueva
         for(Carta c : j.getMano()){
             if(sePuedePonerCarta(c)){
                 listaCartas.add(c);
@@ -41,7 +46,11 @@ public class Mesa {
         return listaCartas;
     }
     
-    //Comprueba si una carta se puede colocar en la mesa
+    /**
+     * Metodo que comprueba si UNA carta se puede colocar en la mesa
+     * @param c carta que se evalua
+     * @return 
+     */
     public boolean sePuedePonerCarta(Carta c){
         boolean toret = false;
         int paloCarta = c.getPalo().ordinal();
@@ -62,7 +71,10 @@ public class Mesa {
         return toret;
     }
     
-    //colocar una carta en la mesa
+    /**
+     * Coloca la carta que se pasa como parametro a su respectiva deque
+     * @param c 
+     */
     public void colocarCartaMesa(Carta c){
         
         int paloCarta = c.getPalo().ordinal();
@@ -83,7 +95,10 @@ public class Mesa {
     }
 
     
-    // mostrar el estado de la mesa
+    /**
+     * Metodo mostrar bonita la mesa de juego en cada turno
+     * @return 
+     */
     @Override
         public String toString(){
 

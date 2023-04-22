@@ -95,11 +95,19 @@ public class IU {
         return nombresJugadores;
     }
 
+    /**
+     * Muestro el toString() del jugador pasado como parametro
+     * @param jugador 
+     */
     public void mostrarJugador(Jugador jugador){
         System.out.println(jugador);
 
     }
 
+    /**
+     * Muestro el toString() de cada jugador perteneciente a la lista jugadores
+     * @param jugadores 
+     */
     public void mostrarJugadores(Collection<Jugador> jugadores){
         int i = 0;
         for (Jugador jugador : jugadores) {
