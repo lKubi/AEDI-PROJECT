@@ -136,12 +136,16 @@ public class Juego{
 
         StringBuilder sb = new StringBuilder();
         
-        sb.append("#".repeat(longitud + 10 )).append("\n");
-        sb.append("#").append(" ".repeat(longitud + 8)).append("#\n");
-        sb.append("#").append(" ".repeat(4)).append(texto).append(" ".repeat(4)).append("#\n");
-        sb.append("#").append(" ".repeat(longitud + 8)).append("#\n");
-        sb.append("#".repeat(longitud + 10 )).append("\n");
+        String colorFuera = "\u001B[32m";
+        String colorNombre = "\u001B[33m";
         
+        sb.append(colorFuera).append("#".repeat(longitud + 10 )).append("\n");
+        sb.append(colorFuera).append("#").append(" ".repeat(longitud + 8)).append("#\n");
+        sb.append("#").append(" ".repeat(4)).append(colorNombre).append(texto).append(colorFuera)
+                .append(" ".repeat(4)).append("#\n");
+        sb.append(colorFuera).append("#").append(" ".repeat(longitud + 8)).append("#\n");
+        sb.append(colorFuera).append("#".repeat(longitud + 10 )).append("\n");
+         
         System.out.println(sb.toString());
                 
     }
