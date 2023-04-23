@@ -8,7 +8,7 @@ package es.uvigo.esei.aed1.core;
 public class Carta {
     
     public static enum Palos{
-        OROS, ESPADAS, BASTOS, COPAS
+        OROS, COPAS, ESPADAS, BASTOS
     }
     
     private int numero;

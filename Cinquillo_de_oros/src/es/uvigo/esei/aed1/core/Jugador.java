@@ -23,6 +23,10 @@ public class Jugador {
         return nombre;
     }
 
+    public List<Carta> getMano() {
+        return mano;
+    }
+    
     /**
      * Agrega una carta a la mano del jugador
      * @param c 
@@ -33,11 +37,11 @@ public class Jugador {
     
     /**
      * Saca una carta de la mano del jugador
-     * @param index
+     * @param c
      * @return carta sacada de la mano
      */
-    public Carta sacarCartaDeMano(int index){
-        return this.mano.remove(index);
+    public boolean sacarCartaDeMano(Carta c){
+        return this.mano.remove(c);
     }
 
     @Override
