@@ -11,8 +11,8 @@ import java.util.*;
 
 public class Jugador {
     
-    private String nombre;
-    private List<Carta> mano;
+    private final String nombre;
+    private final List<Carta> mano;
 
     public Jugador(String nombre) {
         this.nombre = nombre;

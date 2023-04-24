@@ -6,12 +6,11 @@
  */
 package es.uvigo.esei.aed1.core;
 import java.util.*;
-import es.uvigo.esei.aed1.core.*;
 
 
 public class Mesa {
 
-    private Deque<Carta>[] mesa;
+    private final Deque<Carta>[] mesa;
     private final int numPalos = 4;
     private final int numCartasPorPalo = 12;
     
@@ -37,8 +36,8 @@ public class Mesa {
         
         //Por cada carta en la mano, voy comprobandosi se puede añadir o no
         //Si se puede añadir, la agrego a la lista nueva
-        for(Carta c : j.getMano()){
-            if(sePuedePonerCarta(c)){
+        for (Carta c : j.getMano()){
+            if (sePuedePonerCarta(c)){
                 listaCartas.add(c);
             }
         }
@@ -51,20 +50,20 @@ public class Mesa {
      * @param c carta que se evalua
      * @return 
      */
-    public boolean sePuedePonerCarta(Carta c){
+    private boolean sePuedePonerCarta(Carta c){
         boolean toret = false;
         int paloCarta = c.getPalo().ordinal();
         
-        if(mesa[paloCarta].isEmpty()){
-            if(c.getNumero() == 5){
+        if (mesa[paloCarta].isEmpty()){
+            if (c.getNumero() == 5){
                 toret = true;
             }
         }else{
             int numeroArribaPalo = mesa[paloCarta].getFirst().getNumero();
             int numeroAbajoPalo = mesa[paloCarta].getLast().getNumero();
-            if(numeroArribaPalo == (c.getNumero() - 1)){
+            if (numeroArribaPalo == (c.getNumero() - 1)){
                 toret = true;
-            }else if(numeroAbajoPalo == (c.getNumero() + 1)){
+            }else if (numeroAbajoPalo == (c.getNumero() + 1)){
                 toret = true;
             }
         }
@@ -79,15 +78,15 @@ public class Mesa {
         
         int paloCarta = c.getPalo().ordinal();
         
-        if(c.getNumero() == 5){
+        if (c.getNumero() == 5){
             mesa[paloCarta].addFirst(c);
         }else{
             int numeroArribaPalo = mesa[paloCarta].getFirst().getNumero();
             int numeroAbajoPalo = mesa[paloCarta].getLast().getNumero();
             
-            if(numeroArribaPalo == (c.getNumero() - 1)){
+            if (numeroArribaPalo == (c.getNumero() - 1)){
                 mesa[paloCarta].addFirst(c);
-            }else if(numeroAbajoPalo == (c.getNumero() + 1)){
+            }else if (numeroAbajoPalo == (c.getNumero() + 1)){
                 mesa[paloCarta].addLast(c);
             }
         }
@@ -100,7 +99,7 @@ public class Mesa {
      * @return 
      */
     @Override
-        public String toString(){
+    public String toString(){
 
         int [][] mesaMatriz = new int[numCartasPorPalo][numPalos];
         for (int i = 0; i < numPalos; i++) {
@@ -110,15 +109,15 @@ public class Mesa {
         }
 
         StringBuilder sb = new StringBuilder();
-        
+
         Carta.Palos [] palos = Carta.Palos.values();        
-        
+
         sb.append("\n\n");
-        
-        for(Carta.Palos p : palos){
+
+        for (Carta.Palos p : palos){
             sb.append(p.name()).append("\t");
         }
-        
+
         sb.append("\n");
 
         for (int i = 0; i < numCartasPorPalo; i++) {
