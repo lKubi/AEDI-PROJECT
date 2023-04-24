@@ -13,14 +13,16 @@ public class Juego{
     
     private final IU iu;
     Baraja laBaraja;
-    private List <Jugador> jugadores;
-    private Mesa mesaJuego;
+    private final List <Jugador> jugadores;
+    private final Mesa mesaJuego;
+    private Jugador jugadorGanador;
     
     public Juego(IU iu){
         this.iu = iu;
         laBaraja = new Baraja();
         jugadores = new LinkedList<>();
         mesaJuego = new Mesa();
+        jugadorGanador = null;
     }
     
     /**
@@ -45,7 +47,7 @@ public class Juego{
      * @param j Jugador al que se le revisa la mano
      * @return Devuelve True si el juegador tiene cartas para colocar y False si no
      */
-    public boolean tieneCartasParaJugar(Jugador j){
+    private boolean tieneCartasParaJugar(Jugador j){
         return !mesaJuego.getCartasCandidatas(j).isEmpty();
     }
     
@@ -55,7 +57,7 @@ public class Juego{
      * 
      * @param j Jugador que juega
      */
-    public void procesarTurno(Jugador j){
+    private void procesarTurno(Jugador j){
         //Tomo las cartas que puede colocar y se las muestro
         List<Carta> cartas = mesaJuego.getCartasCandidatas(j);
 
@@ -104,7 +106,7 @@ public class Juego{
      * @param jugadores Lista de jugadores
      * @return Nuevo jugador Actual
      */
-    public Jugador cambiarTurno(Jugador j, List <Jugador> jugadores){
+    private Jugador cambiarTurno(Jugador j, List <Jugador> jugadores){
         //Tomo el indice del jugador actual y del jugador siguiente
         int indiceActual = jugadores.indexOf(j);
         int indiceSigiuente = indiceActual + 1;
@@ -128,7 +130,9 @@ public class Juego{
      * que jugador ha ganado
      * @param j 
      */
-    public void mostrarGanador(Jugador j){
+    private void mostrarGanador(Jugador j){
+        
+        System.out.println(mesaJuego);
         
         System.out.println("\n\nLa partida ha finalizado.\n");
         String texto = j.getNombre() + " ha ganado!";
@@ -147,6 +151,46 @@ public class Juego{
         sb.append(colorFuera).append("#".repeat(longitud + 10 )).append("\n");
          
         System.out.println(sb.toString());
+                
+    }
+    
+    /**
+     * Metodo que maneja todo el flujo de una partida
+     * @param jugadorInicial jugador que empieza la partida
+     * @return jugador ganador de la partida
+     */
+    private Jugador jugarTurnos(Jugador jugadorInicial){
+        
+        Jugador jugadorActual = jugadorInicial;
+        
+        //Creo una variable booleana para el control del fin de la partida y creo la mesa       
+        
+        boolean terminoPartida = false;
+               
+        while(!terminoPartida){
+            
+            //En cada turno muestro los datos de la partida
+            mostrarDatos(jugadorActual);
+            
+            //Si el jugador actual tiene cartas para jugar, se procesa su turno
+            //Si no tiene cartas para jugar, le da el mensaje y cambia el turno
+            if(tieneCartasParaJugar(jugadorActual)){
+                procesarTurno(jugadorActual);
+            }else{
+                System.out.println("No tienes cartas para colocar!");
+            }
+            
+            //Entendemos que solo hay un ganador por partida, que es el jugador
+            //al que primero se le acaban las cartas
+            if(jugadorActual.getMano().isEmpty()){
+                jugadorGanador = jugadorActual;
+                terminoPartida = true;
+            }
+            
+            jugadorActual = cambiarTurno(jugadorActual, jugadores);
+        }
+        
+        return jugadorGanador;
                 
     }
      
@@ -171,41 +215,16 @@ public class Juego{
         
         int numeroAleatorio = random.nextInt(numJugadores) + 1;
         
-        Jugador jugadorActual = jugadores.get(numeroAleatorio - 1);
+        Jugador jugadorInicial = jugadores.get(numeroAleatorio - 1);
         
         System.out.println("\nEmpieza la partida el jugador " + (numeroAleatorio) 
-                + ". Que es: " + jugadorActual.getNombre());
-
-        //Creo una variable booleana para el control del fin de la partida y creo la mesa
-        boolean terminoPartida = false;
-        
+                + ". Que es: " + jugadorInicial.getNombre());
+       
         System.out.println("==================================================");
         
-        //El jugadorGanador esta guardado como null para que no de error el 
-        //return y poder asignarlo dentro del while()
-        Jugador jugadorGanador = null;
-               
-        while(!terminoPartida){
-            //En cada turno muestro los datos de la partida
-            mostrarDatos(jugadorActual);
-            
-            //Si el jugador actual tiene cartas para jugar, se procesa su turno
-            //Si no tiene cartas para jugar, le da el mensaje y cambia el turno
-            if(tieneCartasParaJugar(jugadorActual)){
-                procesarTurno(jugadorActual);
-            }else{
-                System.out.println("No tienes cartas para colocar!");
-            }
-            
-            //Entendemos que solo hay un ganador por partida, que es el jugador
-            //al que primero se le acaban las cartas
-            if(jugadorActual.getMano().isEmpty()){
-                jugadorGanador = jugadorActual;
-                terminoPartida = true;
-            }
-            
-            jugadorActual = cambiarTurno(jugadorActual, jugadores);
-        }
+        //En el método jugarTurnos se juega todo el juego hasta que un jugador se
+        //queda sin cartas y ese es retornado como jugadorGanador
+        Jugador jugadorGanador = jugarTurnos(jugadorInicial);
         
         //Mostramos el fin de la partida y al jugador ganador
         mostrarGanador(jugadorGanador);

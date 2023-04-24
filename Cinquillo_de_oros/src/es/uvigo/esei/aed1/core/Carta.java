@@ -11,8 +11,8 @@ public class Carta {
         OROS, COPAS, ESPADAS, BASTOS
     }
     
-    private int numero;
-    private Palos palo;
+    private final int numero;
+    private final Palos palo;
 
     public Carta(int numero, Palos palo) {
         this.numero = numero;

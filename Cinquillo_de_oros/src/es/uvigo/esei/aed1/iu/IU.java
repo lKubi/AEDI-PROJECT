@@ -61,8 +61,6 @@ public class IU {
     public Collection<String> pedirDatosJugadores(){
 
         int cantJugadores = 0;
-        boolean esValido;
-        
         
         //Compruebo que el dato introducido es valido
         do{
