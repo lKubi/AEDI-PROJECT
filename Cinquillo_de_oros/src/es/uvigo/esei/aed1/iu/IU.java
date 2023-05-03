@@ -5,7 +5,9 @@
 
 package es.uvigo.esei.aed1.iu;
 
+import es.uvigo.esei.aed1.core.Carta;
 import es.uvigo.esei.aed1.core.Jugador;
+import es.uvigo.esei.aed1.core.Mesa;
 import java.util.*;
 
 public class IU {
@@ -112,6 +114,70 @@ public class IU {
         }
 
     }
+    
+    public Carta elegirCartaColocar(Jugador j, Mesa m){
+        List<Carta> cartas = j.getCartasCandidatas(m);
+
+        mostrarMensaje("\nEstas son tus cartas disponibles para colocar");
+        int indice = 1;
+        for(Carta c : cartas){
+            System.out.print("Carta #" + indice + ": ");
+            System.out.println(c);
+            indice++;
+        }
+
+        int indiceCarta; 
+        //Pido que elija un indice valido de una carta candidata
+        do{
+            indiceCarta = leeNum("Que carta quieres poner (#): ");
+            if (indiceCarta < 1 || indiceCarta > cartas.size()) {
+                System.out.println("Indice no valido!");
+            }
+        }while(indiceCarta < 1 || indiceCarta > cartas.size());
+        
+        return cartas.get(indiceCarta - 1);
+    }
+    
+    /**
+     * Metodo usado al final de la partida para mostrar que ha terminado y
+     * que jugador ha ganado
+     * @param j 
+     */
+    public void mostrarGanador(Jugador j, Mesa mesaJuego){
+        
+        System.out.println(mesaJuego);
+        
+        System.out.println("\n\nLa partida ha finalizado.\n");
+        String texto = j.getNombre() + " ha ganado!";
+        int longitud = texto.length();
+
+        StringBuilder sb = new StringBuilder();
+        
+        String colorFuera = "\u001B[32m";
+        String colorNombre = "\u001B[33m";
+        
+        sb.append(colorFuera).append("#".repeat(longitud + 10 )).append("\n");
+        sb.append(colorFuera).append("#").append(" ".repeat(longitud + 8)).append("#\n");
+        sb.append("#").append(" ".repeat(4)).append(colorNombre).append(texto).append(colorFuera)
+                .append(" ".repeat(4)).append("#\n");
+        sb.append(colorFuera).append("#").append(" ".repeat(longitud + 8)).append("#\n");
+        sb.append(colorFuera).append("#".repeat(longitud + 10 )).append("\n");
+         
+        System.out.println(sb.toString());
+                
+    }
+
+    /**
+     * Metodo usado para mostrar el estado actual de la partida en cada turno
+     * de juego
+     * 
+     * @param jugadorActual Jugador que tiene el turno de juego
+     */
+    public void mostrarDatos(Jugador jugadorActual, Mesa mesaJuego){
+        System.out.println(mesaJuego);
+        System.out.println("Es el turno de: " + jugadorActual);
+
+    }    
    
     
 }

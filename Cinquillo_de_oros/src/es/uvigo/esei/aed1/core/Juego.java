@@ -47,44 +47,11 @@ public class Juego{
      * @param j Jugador que juega
      */
     private void procesarTurno(Jugador j){
-        //Tomo las cartas que puede colocar y se las muestro
-        List<Carta> cartas = j.getCartasCandidatas(mesaJuego);
-
-        System.out.println("\nEstas son tus cartas disponibles para colocar");
-        int indice = 1;
-        for(Carta c : cartas){
-            System.out.print("Carta #" + indice + ": ");
-            System.out.println(c);
-            indice++;
-        }
-
-        int indiceCarta; 
-        //Pido que elija un indice valido de una carta candidata
-        do{
-            indiceCarta = iu.leeNum("Que carta quieres poner (#): ");
-            if (indiceCarta < 1 || indiceCarta > cartas.size()) {
-                System.out.println("Indice no valido!");
-            }
-        }while(indiceCarta < 1 || indiceCarta > cartas.size());
-
         //Cuando tengo la carta elegida, la coloco en la mesa y la saco de la
         //del jugador
-        Carta cartaElegida = cartas.get(indiceCarta - 1);
+        Carta cartaElegida = iu.elegirCartaColocar(j, mesaJuego);
         mesaJuego.colocarCartaMesa(cartaElegida);
         j.sacarCartaDeMano(cartaElegida);
-    }
-    
-    /**
-     * Metodo usado para mostrar el estado actual de la partida en cada turno
-     * de juego
-     * 
-     * @param jugadorActual Jugador que tiene el turno de juego
-     */
-    private void mostrarDatos(Jugador jugadorActual){
-        System.out.println(mesaJuego);
-        System.out.println("Es el turno de: " + jugadorActual.getNombre());
-        //System.out.println("Esta es tu mano: ");
-        //System.out.println(jugadorActual.getMano());
     }
     
     /**
@@ -113,36 +80,7 @@ public class Juego{
         Jugador devolver = jugadores.get(indiceActual);
         return devolver;
     }
-    
-    /**
-     * Metodo usado al final de la partida para mostrar que ha terminado y
-     * que jugador ha ganado
-     * @param j 
-     */
-    private void mostrarGanador(Jugador j){
         
-        System.out.println(mesaJuego);
-        
-        System.out.println("\n\nLa partida ha finalizado.\n");
-        String texto = j.getNombre() + " ha ganado!";
-        int longitud = texto.length();
-
-        StringBuilder sb = new StringBuilder();
-        
-        String colorFuera = "\u001B[32m";
-        String colorNombre = "\u001B[33m";
-        
-        sb.append(colorFuera).append("#".repeat(longitud + 10 )).append("\n");
-        sb.append(colorFuera).append("#").append(" ".repeat(longitud + 8)).append("#\n");
-        sb.append("#").append(" ".repeat(4)).append(colorNombre).append(texto).append(colorFuera)
-                .append(" ".repeat(4)).append("#\n");
-        sb.append(colorFuera).append("#").append(" ".repeat(longitud + 8)).append("#\n");
-        sb.append(colorFuera).append("#".repeat(longitud + 10 )).append("\n");
-         
-        System.out.println(sb.toString());
-                
-    }
-    
     /**
      * Metodo que maneja todo el flujo de una partida
      * @param jugadorInicial jugador que empieza la partida
@@ -159,14 +97,14 @@ public class Juego{
         while(!terminoPartida){
             
             //En cada turno muestro los datos de la partida
-            mostrarDatos(jugadorActual);
+            iu.mostrarDatos(jugadorActual, mesaJuego);
             
             //Si el jugador actual tiene cartas para jugar, se procesa su turno
             //Si no tiene cartas para jugar, le da el mensaje y cambia el turno
             if(!jugadorActual.getCartasCandidatas(mesaJuego).isEmpty()){
                 procesarTurno(jugadorActual);
             }else{
-                System.out.println("No tienes cartas para colocar!");
+                iu.mostrarMensaje("No tienes cartas para colocar!");
             }
             
             //Entendemos que solo hay un ganador por partida, que es el jugador
@@ -216,6 +154,6 @@ public class Juego{
         Jugador jugadorGanador = jugarTurnos(jugadorInicial);
         
         //Mostramos el fin de la partida y al jugador ganador
-        mostrarGanador(jugadorGanador);
+        iu.mostrarGanador(jugadorGanador, mesaJuego);
     }
 }
