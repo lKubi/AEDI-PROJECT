@@ -25,32 +25,32 @@ public class Mesa {
         return numPalos;
     }
 
-    /**
-     * Metodo que devuelve las cartas que un jugador puede poner en la mesa actual
-     * @param j Jugador Actual
-     * @return Una lista con las cartas posibles a colocar
-     */
-    public List<Carta> getCartasCandidatas(Jugador j){
-        //Creo una lista vacia
-        List <Carta> listaCartas = new LinkedList<>();
-        
-        //Por cada carta en la mano, voy comprobandosi se puede añadir o no
-        //Si se puede añadir, la agrego a la lista nueva
-        for (Carta c : j.getMano()){
-            if (sePuedePonerCarta(c)){
-                listaCartas.add(c);
-            }
-        }
-        
-        return listaCartas;
-    }
+//    /**
+//     * Metodo que devuelve las cartas que un jugador puede poner en la mesa actual
+//     * @param j Jugador Actual
+//     * @return Una lista con las cartas posibles a colocar
+//     */
+//    public List<Carta> getCartasCandidatas(Jugador j){
+//        //Creo una lista vacia
+//        List <Carta> listaCartas = new LinkedList<>();
+//        
+//        //Por cada carta en la mano, voy comprobandosi se puede añadir o no
+//        //Si se puede añadir, la agrego a la lista nueva
+//        for (Carta c : j.getMano()){
+//            if (sePuedePonerCarta(c)){
+//                listaCartas.add(c);
+//            }
+//        }
+//        
+//        return listaCartas;
+//    }
     
     /**
      * Metodo que comprueba si UNA carta se puede colocar en la mesa
      * @param c carta que se evalua
      * @return 
      */
-    private boolean sePuedePonerCarta(Carta c){
+    public boolean sePuedePonerCarta(Carta c){
         boolean toret = false;
         int paloCarta = c.getPalo().ordinal();
         

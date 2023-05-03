@@ -39,18 +39,7 @@ public class Juego{
             }
         }        
     }
-    
-    /**
-     * Metodo que mira si un jugador tiene cartas en su mano para colocar en 
-     * la mesa
-     * 
-     * @param j Jugador al que se le revisa la mano
-     * @return Devuelve True si el juegador tiene cartas para colocar y False si no
-     */
-    private boolean tieneCartasParaJugar(Jugador j){
-        return !mesaJuego.getCartasCandidatas(j).isEmpty();
-    }
-    
+
     /**
      * Metodo usado para procesar el turno de un jugador que TIENE cartas para colocar
      * en la mesa
@@ -59,7 +48,7 @@ public class Juego{
      */
     private void procesarTurno(Jugador j){
         //Tomo las cartas que puede colocar y se las muestro
-        List<Carta> cartas = mesaJuego.getCartasCandidatas(j);
+        List<Carta> cartas = j.getCartasCandidatas(mesaJuego);
 
         System.out.println("\nEstas son tus cartas disponibles para colocar");
         int indice = 1;
@@ -94,8 +83,8 @@ public class Juego{
     private void mostrarDatos(Jugador jugadorActual){
         System.out.println(mesaJuego);
         System.out.println("Es el turno de: " + jugadorActual.getNombre());
-        System.out.println("Esta es tu mano: ");
-        System.out.println(jugadorActual.getMano());
+        //System.out.println("Esta es tu mano: ");
+        //System.out.println(jugadorActual.getMano());
     }
     
     /**
@@ -174,7 +163,7 @@ public class Juego{
             
             //Si el jugador actual tiene cartas para jugar, se procesa su turno
             //Si no tiene cartas para jugar, le da el mensaje y cambia el turno
-            if(tieneCartasParaJugar(jugadorActual)){
+            if(!jugadorActual.getCartasCandidatas(mesaJuego).isEmpty()){
                 procesarTurno(jugadorActual);
             }else{
                 System.out.println("No tienes cartas para colocar!");
@@ -182,7 +171,7 @@ public class Juego{
             
             //Entendemos que solo hay un ganador por partida, que es el jugador
             //al que primero se le acaban las cartas
-            if(jugadorActual.getMano().isEmpty()){
+            if(jugadorActual.getNumCartasMano() == 0){
                 jugadorGanador = jugadorActual;
                 terminoPartida = true;
             }

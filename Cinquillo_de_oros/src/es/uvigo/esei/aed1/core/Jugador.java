@@ -13,18 +13,20 @@ public class Jugador {
     
     private final String nombre;
     private final List<Carta> mano;
+    private int numCartasMano;
 
     public Jugador(String nombre) {
         this.nombre = nombre;
         this.mano = new LinkedList<>();
+        this.numCartasMano = 0;
     }
 
     public String getNombre() {
         return nombre;
     }
 
-    public List<Carta> getMano() {
-        return mano;
+    public int getNumCartasMano() {
+        return numCartasMano;
     }
     
     /**
@@ -33,6 +35,7 @@ public class Jugador {
      */
     public void agregarCartaAMano(Carta c){
         this.mano.add(c);
+        this.numCartasMano++;
     }
     
     /**
@@ -41,8 +44,29 @@ public class Jugador {
      * @return carta sacada de la mano
      */
     public boolean sacarCartaDeMano(Carta c){
+        this.numCartasMano--;
         return this.mano.remove(c);
     }
+    
+    /**
+     * Metodo que devuelve las cartas que un jugador puede poner en la mesa actual
+     * @param j Jugador Actual
+     * @return Una lista con las cartas posibles a colocar
+     */
+    public List<Carta> getCartasCandidatas(Mesa m){
+        //Creo una lista vacia
+        List <Carta> listaCartas = new LinkedList<>();
+        
+        //Por cada carta en la mano, voy comprobandosi se puede añadir o no
+        //Si se puede añadir, la agrego a la lista nueva
+        for (Carta c : this.mano){
+            if (m.sePuedePonerCarta(c)){
+                listaCartas.add(c);
+            }
+        }
+        
+        return listaCartas;
+    }    
 
     @Override
     public String toString() {

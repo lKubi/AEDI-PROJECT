@@ -76,16 +76,13 @@ public class IU {
         String entrada;
         
         for (int i = 1; i <= cantJugadores; i++) {
-            System.out.println("Introduce el nombre del jugador " + i + ": ");
-            
-            entrada = teclado.nextLine();
+            entrada = leeString("Introduce el nombre del jugador " + i + ": ");
             
              // Compruebo que la cadena introducida no esté vacia
-            while(entrada.trim().equals("")){
-                System.out.print("\nLa cadena no puede estar vacia!\nIntroduce un nombre valido: ");
-                entrada = teclado.nextLine();
-            }
             
+            while(entrada.isBlank()){
+                entrada = leeString("\nLa cadena no puede estar vacia!\nIntroduce un nombre valido: ");
+            }            
             //Añado el nombre a la colección
             nombresJugadores.add(entrada);
             
