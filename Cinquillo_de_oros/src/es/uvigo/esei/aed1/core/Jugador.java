@@ -9,16 +9,16 @@ import java.util.*;
 
 
 
-public class Jugador {
+public class Jugador implements Comparable <Jugador>{
     
     private final String nombre;
-    private final List<Carta> mano;
-    private int numCartasMano;
+    private List<Carta> mano;
+    private int puntos;
 
     public Jugador(String nombre) {
         this.nombre = nombre;
         this.mano = new LinkedList<>();
-        this.numCartasMano = 0;
+        this.puntos = 0;
     }
 
     public String getNombre() {
@@ -26,7 +26,15 @@ public class Jugador {
     }
 
     public int getNumCartasMano() {
-        return numCartasMano;
+        return mano.size();
+    }
+    
+    public int getPuntos(){
+        return this.puntos;
+    }
+    
+    public void sumarPuntos(int puntosSumar){
+        this.puntos += puntosSumar;
     }
     
     /**
@@ -35,7 +43,6 @@ public class Jugador {
      */
     public void agregarCartaAMano(Carta c){
         this.mano.add(c);
-        this.numCartasMano++;
     }
     
     /**
@@ -44,8 +51,11 @@ public class Jugador {
      * @return carta sacada de la mano
      */
     public boolean sacarCartaDeMano(Carta c){
-        this.numCartasMano--;
         return this.mano.remove(c);
+    }
+    
+    public void limpiarMano(){
+        this.mano = new LinkedList<>();
     }
     
     /**
@@ -66,6 +76,11 @@ public class Jugador {
         }
         
         return listaCartas;
+    }    
+    
+    @Override
+    public int compareTo(Jugador otroJugador) {
+        return Integer.compare(otroJugador.puntos, this.puntos);
     }    
 
     @Override

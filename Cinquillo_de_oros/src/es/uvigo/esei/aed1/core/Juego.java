@@ -14,15 +14,22 @@ public class Juego{
     private final IU iu;
     Baraja laBaraja;
     private final List <Jugador> jugadores;
-    private final Mesa mesaJuego;
+    private Mesa mesaJuego;
+    private Carta asDeOros;
     private Jugador jugadorGanador;
+    private int puntosAsOros;
+    private Jugador jugadorPusoAsOros;
+    private final int puntosPorPartida = 4;
     
     public Juego(IU iu){
         this.iu = iu;
         laBaraja = new Baraja();
         jugadores = new LinkedList<>();
+        asDeOros = new Carta(1, Carta.Palos.OROS);
         mesaJuego = new Mesa();
         jugadorGanador = null;
+        puntosAsOros = 0;
+        jugadorPusoAsOros = null;
     }
     
     /**
@@ -50,6 +57,9 @@ public class Juego{
         //Cuando tengo la carta elegida, la coloco en la mesa y la saco de la
         //del jugador
         Carta cartaElegida = iu.elegirCartaColocar(j, mesaJuego);
+        if(cartaElegida.equals(asDeOros)){
+            jugadorPusoAsOros = j;
+        }
         mesaJuego.colocarCartaMesa(cartaElegida);
         j.sacarCartaDeMano(cartaElegida);
     }
@@ -111,6 +121,7 @@ public class Juego{
             //al que primero se le acaban las cartas
             if(jugadorActual.getNumCartasMano() == 0){
                 jugadorGanador = jugadorActual;
+                jugadorGanador.sumarPuntos(puntosPorPartida);
                 terminoPartida = true;
             }
             
@@ -119,6 +130,53 @@ public class Juego{
         
         return jugadorGanador;
                 
+    }
+    
+    private boolean jugarPartida(){
+        int numJugadores = jugadores.size();
+        //Barajar y asignar la mano a cada jugador
+        barajarYRepartir(numJugadores);
+
+        //Muestra en pantalla los jugadores y sus manos
+        iu.mostrarJugadores(jugadores);
+
+        //Se crea un numero random para seleccionar el jugador que empieza la partida
+        Random random = new Random();
+
+        int numeroAleatorio = random.nextInt(numJugadores) + 1;
+
+        Jugador jugadorInicial = jugadores.get(numeroAleatorio - 1);
+
+        System.out.println("\nEmpieza la partida el jugador " + (jugadores.indexOf(jugadorInicial) + 1) 
+                + ". Que es: " + jugadorInicial.getNombre());
+
+        System.out.println("==================================================");
+
+        //En el método jugarTurnos se juega todo el juego hasta que un jugador se
+        //queda sin cartas y ese es retornado como jugadorGanador
+        Jugador jugadorGanador = jugarTurnos(jugadorInicial);
+
+        //Mostramos el fin de la partida y al jugador ganador
+        iu.mostrarGanador(jugadorGanador, mesaJuego);
+        
+        return mesaJuego.estaCarta(asDeOros);
+  
+    }  
+    
+    public void jugarJuego(int numJugadores){
+        boolean estaAsDeOros = false;
+        do{
+            iu.siguienteJuego();
+            puntosAsOros += 2;
+            mesaJuego = new Mesa();
+            laBaraja = new Baraja();
+            for(Jugador j : jugadores){
+                j.limpiarMano();
+            }
+            estaAsDeOros = jugarPartida();
+        }while(!estaAsDeOros);
+        
+        jugadorPusoAsOros.sumarPuntos(puntosAsOros);
     }
      
     public void jugar(){
@@ -131,29 +189,8 @@ public class Juego{
             jugadores.add(new Jugador(nombre));
         }
      
-        //Barajar y asignar la mano a cada jugador
-        barajarYRepartir(numJugadores);
+        jugarJuego(numJugadores);
         
-        //Muestra en pantalla los jugadores y sus manos
-        iu.mostrarJugadores(jugadores);
-        
-        //Se crea un numero random para seleccionar el jugador que empieza la partida
-        Random random = new Random();
-        
-        int numeroAleatorio = random.nextInt(numJugadores) + 1;
-        
-        Jugador jugadorInicial = jugadores.get(numeroAleatorio - 1);
-        
-        System.out.println("\nEmpieza la partida el jugador " + (numeroAleatorio) 
-                + ". Que es: " + jugadorInicial.getNombre());
-       
-        System.out.println("==================================================");
-        
-        //En el método jugarTurnos se juega todo el juego hasta que un jugador se
-        //queda sin cartas y ese es retornado como jugadorGanador
-        Jugador jugadorGanador = jugarTurnos(jugadorInicial);
-        
-        //Mostramos el fin de la partida y al jugador ganador
-        iu.mostrarGanador(jugadorGanador, mesaJuego);
+        iu.mostrarPuntos(jugadores);
     }
 }

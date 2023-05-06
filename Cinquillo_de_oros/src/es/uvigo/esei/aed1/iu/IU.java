@@ -115,6 +115,10 @@ public class IU {
 
     }
     
+    public void siguienteJuego() {
+        String basura = leeString("Pulsa Enter para comenzar!\n\n");
+    }       
+    
     public Carta elegirCartaColocar(Jugador j, Mesa m){
         List<Carta> cartas = j.getCartasCandidatas(m);
 
@@ -148,7 +152,7 @@ public class IU {
         System.out.println(mesaJuego);
         
         System.out.println("\n\nLa partida ha finalizado.\n");
-        String texto = j.getNombre() + " ha ganado!";
+        String texto = j.getNombre() + " ha ganado la partida!";
         int longitud = texto.length();
 
         StringBuilder sb = new StringBuilder();
@@ -177,7 +181,21 @@ public class IU {
         System.out.println(mesaJuego);
         System.out.println("Es el turno de: " + jugadorActual);
 
-    }    
+    }
+
+    public void mostrarPuntos(List<Jugador> jugadores){
+        Collections.sort(jugadores);
+        
+        System.out.println("Posicion\tNombre\t\tPuntos");
+        int posicion = 1;
+        
+        for(Jugador j : jugadores){
+            System.out.println(posicion + "\t\t" + j.getNombre() + "\t\t" + j.getPuntos());
+            posicion++;
+        }
+        
+        System.out.println("\n\nJuego Terminado!");
+    }
    
     
 }

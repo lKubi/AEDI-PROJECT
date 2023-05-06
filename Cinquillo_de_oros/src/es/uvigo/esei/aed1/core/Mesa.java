@@ -72,6 +72,21 @@ public class Mesa {
         }
         
     }
+    
+    public boolean estaCarta(Carta c){
+        boolean toret = false;
+        
+        int i = 0;
+        do{
+            for(Carta carta : mesa[i]){
+                if((carta.getNumero() == c.getNumero()) && (carta.getPalo() == c.getPalo()))
+                    toret = true;
+            }
+            i++;
+        }while(!toret && i < numPalos);
+        
+        return toret;
+    }
 
     
     /**
@@ -84,7 +99,7 @@ public class Mesa {
         int [][] mesaMatriz = new int[numCartasPorPalo][numPalos];
         for (int i = 0; i < numPalos; i++) {
             for (Carta c : mesa[i]) {
-                mesaMatriz[12 - c.getNumero()][c.getPalo().ordinal()] = c.getNumero();
+                mesaMatriz[numCartasPorPalo - c.getNumero()][c.getPalo().ordinal()] = c.getNumero();
             }
         }
 

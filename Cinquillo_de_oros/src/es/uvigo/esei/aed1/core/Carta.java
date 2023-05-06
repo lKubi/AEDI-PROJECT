@@ -36,4 +36,9 @@ public class Carta {
         return sb.toString();
     }
     
+    public boolean equals(Carta c) {
+        return (this.numero == c.getNumero() && this.palo == c.getPalo());
+
+}
+    
 }
