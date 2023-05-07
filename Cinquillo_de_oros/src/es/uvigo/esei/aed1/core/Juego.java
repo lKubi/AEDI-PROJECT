@@ -14,7 +14,7 @@ public class Juego{
     private final IU iu;
     private final List <Jugador> jugadores;
     private final Carta AS_DE_OROS;
-    private final int PUNTOS_POR_PARTIDA = 4;
+    private final int PUNTOS_POR_PARTIDA;
     private int puntosAsOros;    
     private Baraja laBaraja;
     private Mesa mesaJuego;
@@ -29,6 +29,7 @@ public class Juego{
         mesaJuego = new Mesa();
         jugadorGanador = null;
         puntosAsOros = 0;
+        PUNTOS_POR_PARTIDA = 4;
         jugadorPusoAsOros = null;
     }
     
