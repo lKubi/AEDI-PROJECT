@@ -19,14 +19,26 @@ public class Carta {
         this.palo = palo;
     }
 
+    /**
+     * Función para devolver el numero de una carta
+     * @return 
+     */
     public int getNumero() {
         return numero;
     }
 
+    /**
+     * Función para devolver el Palo de una carta
+     * @return 
+     */
     public Palos getPalo() {
         return palo;
     }
     
+    /**
+     * Función para mostrar los atributos de una carta
+     * @return 
+     */
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
@@ -36,9 +48,14 @@ public class Carta {
         return sb.toString();
     }
     
+    /**
+     * Función para comparar 2 Cartas (this y c)
+     * @param c carta a comparar con this
+     * @return true si son iguales false en el caso contrario
+     */
     public boolean equals(Carta c) {
         return (this.numero == c.getNumero() && this.palo == c.getPalo());
 
-}
+    }
     
 }
