@@ -9,24 +9,48 @@ import java.util.*;
 
 
 
-public class Jugador {
+public class Jugador implements Comparable <Jugador>{
     
-    private final String nombre;
-    private final List<Carta> mano;
-    private int numCartasMano;
+    private String nombre;
+    private List<Carta> mano;
+    private int puntos;
 
     public Jugador(String nombre) {
         this.nombre = nombre;
         this.mano = new LinkedList<>();
-        this.numCartasMano = 0;
+        this.puntos = 0;
     }
 
+    /**
+     * Función para obtener el nombre de un jugador
+     * @return nombre del jugador
+     */
     public String getNombre() {
         return nombre;
     }
 
+    /**
+     * Función para obtener el numero de cartas en la mano del jugador
+     * @return tamaño de la mano
+     */
     public int getNumCartasMano() {
-        return numCartasMano;
+        return mano.size();
+    }
+    
+    /**
+     * Función para obtener los puntos de un jugador
+     * @return puntos
+     */
+    public int getPuntos(){
+        return this.puntos;
+    }
+    
+    /**
+     * Funcion que suma los puntos que se le pasan como parametro al atributo del jugador
+     * @param puntosSumar 
+     */
+    public void sumarPuntos(int puntosSumar){
+        this.puntos += puntosSumar;
     }
     
     /**
@@ -35,7 +59,6 @@ public class Jugador {
      */
     public void agregarCartaAMano(Carta c){
         this.mano.add(c);
-        this.numCartasMano++;
     }
     
     /**
@@ -44,13 +67,19 @@ public class Jugador {
      * @return carta sacada de la mano
      */
     public boolean sacarCartaDeMano(Carta c){
-        this.numCartasMano--;
         return this.mano.remove(c);
     }
     
     /**
+     * Función que elimina la mano del jugador y le da una mano vacia
+     */
+    public void limpiarMano(){
+        this.mano = new LinkedList<>();
+    }
+    
+    /**
      * Metodo que devuelve las cartas que un jugador puede poner en la mesa actual
-     * @param j Jugador Actual
+     * @param m Mesa de juego
      * @return Una lista con las cartas posibles a colocar
      */
     public List<Carta> getCartasCandidatas(Mesa m){
@@ -67,7 +96,25 @@ public class Jugador {
         
         return listaCartas;
     }    
+    
+    /**
+     * Función que se implementa de la interfaz Comparable. Para usar el 
+     * Collections.sort() para ordenar a los jugadores por sus puntos
+     * 
+     * @param otroJugador para comparar
+     * @return Devuelve 0 si 2 jugadores tienen los mismos puntos. Si this tiene
+     * menos puntos que otroJugador devuelve un valor < 0 y si this tiene más puntos
+     * que otroJugador deeuelve un valor > 0
+     */
+    @Override
+    public int compareTo(Jugador otroJugador) {
+        return Integer.compare(otroJugador.puntos, this.puntos);
+    }    
 
+    /**
+     * Metodo toString() para mostrar al jugador
+     * @return 
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -76,7 +123,5 @@ public class Jugador {
         return sb.toString();
 
     }
-    
-    
     
 }

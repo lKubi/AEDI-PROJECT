@@ -36,20 +36,40 @@ public class IU {
         } while (true);
     }
 
+    /**
+     * Lee un String de telcado
+     * @param msg El mensaje a visualizar
+     * @return  El String
+     */
     public String leeString(String msg) {
         System.out.print(msg);
         return teclado.next();
     }
 
+    /**
+     * Lee un String de teclado
+     * @param msg El mensaje a visualizar
+     * @param args Parametros en el mensaje
+     * @return El String
+     */
     public String leeString(String msg, Object... args) {
         System.out.printf(msg, args);
         return teclado.next();
     }
 
+    /**
+     * Mostrar un mensaje
+     * @param msg El mensaje
+     */
     public void mostrarMensaje(String msg) {
         System.out.println(msg);
     }
 
+    /**
+     * Mostrar un mensaje
+     * @param msg El mensaje
+     * @param args Parametros en el mensaje
+     */
     public void mostrarMensaje(String msg, Object... args) {
         System.out.printf(msg, args);
     }
@@ -115,6 +135,20 @@ public class IU {
 
     }
     
+    /**
+     * Función para parar el flujo del juego hasta que se quiera comenzar la partida
+     */
+    public void siguienteJuego() {
+        leeString("Pulsa Enter para comenzar!\n\n");
+    }       
+    
+    /**
+     * Función donde se le muestran al usuario las cartas que puede poner
+     * y elige cual quiere colocar
+     * @param j Jugador actual
+     * @param m Mesa de juego
+     * @return La carta elegida
+     */
     public Carta elegirCartaColocar(Jugador j, Mesa m){
         List<Carta> cartas = j.getCartasCandidatas(m);
 
@@ -141,14 +175,15 @@ public class IU {
     /**
      * Metodo usado al final de la partida para mostrar que ha terminado y
      * que jugador ha ganado
-     * @param j 
+     * @param j El jugador ganador
+     * @param mesaJuego La mesa del juego
      */
     public void mostrarGanador(Jugador j, Mesa mesaJuego){
         
         System.out.println(mesaJuego);
         
         System.out.println("\n\nLa partida ha finalizado.\n");
-        String texto = j.getNombre() + " ha ganado!";
+        String texto = j.getNombre() + " ha ganado la partida!";
         int longitud = texto.length();
 
         StringBuilder sb = new StringBuilder();
@@ -170,14 +205,32 @@ public class IU {
     /**
      * Metodo usado para mostrar el estado actual de la partida en cada turno
      * de juego
-     * 
      * @param jugadorActual Jugador que tiene el turno de juego
+     * @param mesaJuego Mesa del juego
      */
     public void mostrarDatos(Jugador jugadorActual, Mesa mesaJuego){
         System.out.println(mesaJuego);
         System.out.println("Es el turno de: " + jugadorActual);
 
-    }    
-   
+    }
+
+    /**
+     * Función utilizada para mostrar los puntos de los jugadores una vez termina la partida
+     * @param jugadores Lista de Jugadores
+     */
+    public void mostrarPuntos(List<Jugador> jugadores){
+        //Ordeno la lista gracias a implementar la interfaz Comparable en la clase Jugador
+        Collections.sort(jugadores);
+        
+        System.out.println("Posicion\tNombre\t\tPuntos");
+        int posicion = 1;
+        
+        for(Jugador j : jugadores){
+            System.out.println(posicion + "\t\t" + j.getNombre() + "\t\t" + j.getPuntos());
+            posicion++;
+        }
+        
+        System.out.println("\n\nJuego Terminado!");
+    }
     
 }

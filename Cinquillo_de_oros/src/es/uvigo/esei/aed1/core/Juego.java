@@ -12,23 +12,29 @@ import java.util.*;
 public class Juego{
     
     private final IU iu;
-    Baraja laBaraja;
     private final List <Jugador> jugadores;
-    private final Mesa mesaJuego;
+    private final Carta AS_DE_OROS;
+    private final int PUNTOS_POR_PARTIDA = 4;
+    private int puntosAsOros;    
+    private Baraja laBaraja;
+    private Mesa mesaJuego;
     private Jugador jugadorGanador;
+    private Jugador jugadorPusoAsOros;
     
     public Juego(IU iu){
         this.iu = iu;
         laBaraja = new Baraja();
         jugadores = new LinkedList<>();
+        AS_DE_OROS = new Carta(1, Carta.Palos.OROS);
         mesaJuego = new Mesa();
         jugadorGanador = null;
+        puntosAsOros = 0;
+        jugadorPusoAsOros = null;
     }
     
     /**
      * Metodo al que se le pasa el numero de jugadores y les reparte las cartas 
      * correspondientes a su mano
-     * 
      * @param numJugadores 
      */
     private void barajarYRepartir(int numJugadores){
@@ -43,13 +49,15 @@ public class Juego{
     /**
      * Metodo usado para procesar el turno de un jugador que TIENE cartas para colocar
      * en la mesa
-     * 
      * @param j Jugador que juega
      */
     private void procesarTurno(Jugador j){
         //Cuando tengo la carta elegida, la coloco en la mesa y la saco de la
         //del jugador
         Carta cartaElegida = iu.elegirCartaColocar(j, mesaJuego);
+        if(cartaElegida.equals(AS_DE_OROS)){
+            jugadorPusoAsOros = j;
+        }
         mesaJuego.colocarCartaMesa(cartaElegida);
         j.sacarCartaDeMano(cartaElegida);
     }
@@ -57,7 +65,6 @@ public class Juego{
     /**
      * Metodo usado para cambiar al jugador actual cuando un jugador acaba su 
      * turno de juego (Ya sea por colocar carta o porque no tiene cartas para colocar) 
-     * 
      * @param j Jugador Actual
      * @param jugadores Lista de jugadores
      * @return Nuevo jugador Actual
@@ -65,12 +72,12 @@ public class Juego{
     private Jugador cambiarTurno(Jugador j, List <Jugador> jugadores){
         //Tomo el indice del jugador actual y del jugador siguiente
         int indiceActual = jugadores.indexOf(j);
-        int indiceSigiuente = indiceActual + 1;
+        int indiceSiguiente = indiceActual + 1;
         
         //Si el indice del jugador siguiente esta fuera del rango del tamaño
         //de la lista de jugadores, asigno el valor 0, porque se entiende, que se vuelve
         //al jugador 0
-        if (indiceSigiuente >= jugadores.size()){
+        if (indiceSiguiente >= jugadores.size()){
             indiceActual = 0;
         }else{
             indiceActual++;
@@ -86,7 +93,7 @@ public class Juego{
      * @param jugadorInicial jugador que empieza la partida
      * @return jugador ganador de la partida
      */
-    private Jugador jugarTurnos(Jugador jugadorInicial){
+    private void jugarTurnos(Jugador jugadorInicial){
         
         Jugador jugadorActual = jugadorInicial;
         
@@ -111,49 +118,84 @@ public class Juego{
             //al que primero se le acaban las cartas
             if(jugadorActual.getNumCartasMano() == 0){
                 jugadorGanador = jugadorActual;
+                jugadorGanador.sumarPuntos(PUNTOS_POR_PARTIDA);
                 terminoPartida = true;
             }
             
             jugadorActual = cambiarTurno(jugadorActual, jugadores);
         }
         
-        return jugadorGanador;
-                
+    }
+    
+    /**
+     * Función para controlar el flujo de la partida
+     * @return verdadero si se puso el AS_DE_OROS o falso en caso contrario
+     */
+    private boolean jugarPartida(){
+        int numJugadores = jugadores.size();
+        //Barajar y asignar la mano a cada jugador
+        barajarYRepartir(numJugadores);
+
+        //Muestra en pantalla los jugadores y sus manos
+        iu.mostrarJugadores(jugadores);
+
+        //Se crea un numero random para seleccionar el jugador que empieza la partida
+        Random random = new Random();
+
+        int numeroAleatorio = random.nextInt(numJugadores) + 1;
+
+        Jugador jugadorInicial = jugadores.get(numeroAleatorio - 1);
+
+        System.out.println("\nEmpieza la partida el jugador " + (jugadores.indexOf(jugadorInicial) + 1) 
+                + ". Que es: " + jugadorInicial.getNombre());
+
+        System.out.println("=".repeat(50));
+
+        //En el método jugarTurnos se juega todo el juego hasta que un jugador se
+        //queda sin cartas y ese es guardado como jugadorGanador
+        jugarTurnos(jugadorInicial);
+
+        //Mostramos el fin de la partida y al jugador ganador
+        iu.mostrarGanador(jugadorGanador, mesaJuego);
+        
+        return mesaJuego.estaCarta(AS_DE_OROS);
+  
+    }  
+    
+    /**
+     * Función utilizada para controlar el flujo del Juego
+     */
+    private void jugarJuego(){
+        boolean estaAsDeOros;
+        do{
+            iu.siguienteJuego();
+            puntosAsOros += 2;
+            mesaJuego = new Mesa();
+            laBaraja = new Baraja();
+            for(Jugador j : jugadores){
+                j.limpiarMano();
+            }
+            estaAsDeOros = jugarPartida();
+        }while(!estaAsDeOros);
+        
+        jugadorPusoAsOros.sumarPuntos(puntosAsOros);
     }
      
+    /**
+     * Función principal del juego, donde se llaman a las funciones modulares
+     * del juego y de la(s) partidas
+     */
     public void jugar(){
         //Creación de baraja y colección de nombres de los jugadores
         Collection<String> nombresJugadores = iu.pedirDatosJugadores();     
-        int numJugadores = nombresJugadores.size();
         
         //Creación de la lista de objetos Jugadores
         for(String nombre : nombresJugadores){
             jugadores.add(new Jugador(nombre));
         }
      
-        //Barajar y asignar la mano a cada jugador
-        barajarYRepartir(numJugadores);
+        jugarJuego();
         
-        //Muestra en pantalla los jugadores y sus manos
-        iu.mostrarJugadores(jugadores);
-        
-        //Se crea un numero random para seleccionar el jugador que empieza la partida
-        Random random = new Random();
-        
-        int numeroAleatorio = random.nextInt(numJugadores) + 1;
-        
-        Jugador jugadorInicial = jugadores.get(numeroAleatorio - 1);
-        
-        System.out.println("\nEmpieza la partida el jugador " + (numeroAleatorio) 
-                + ". Que es: " + jugadorInicial.getNombre());
-       
-        System.out.println("==================================================");
-        
-        //En el método jugarTurnos se juega todo el juego hasta que un jugador se
-        //queda sin cartas y ese es retornado como jugadorGanador
-        Jugador jugadorGanador = jugarTurnos(jugadorInicial);
-        
-        //Mostramos el fin de la partida y al jugador ganador
-        iu.mostrarGanador(jugadorGanador, mesaJuego);
+        iu.mostrarPuntos(jugadores);
     }
 }

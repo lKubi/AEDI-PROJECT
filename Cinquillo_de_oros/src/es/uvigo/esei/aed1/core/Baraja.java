@@ -13,14 +13,14 @@ public class Baraja {
     private final Carta.Palos palos [] = Carta.Palos.values();
     private final Stack<Carta> baraja;
     
-    private final int numPalos = 4;
-    private final int numCartasPorPalo = 12;
+    private final int NUM_PALOS = 4;
+    private final int NUM_CARTAS_POR_PALO = 12;
     
     public Baraja(){
         baraja = new Stack<>();
         
-        for (int i = 0; i < numPalos; i++) {
-            for (int j = 1; j <= numCartasPorPalo; j++) {
+        for (int i = 0; i < NUM_PALOS; i++) {
+            for (int j = 1; j <= NUM_CARTAS_POR_PALO; j++) {
                     this.baraja.push(new Carta(j, palos[i]));
             }
         }

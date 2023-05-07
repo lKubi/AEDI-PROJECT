@@ -10,19 +10,15 @@ import java.util.*;
 
 public class Mesa {
 
+    private final int NUM_CARTAS_POR_PALO = 12;
+    private final int NUM_PALOS = 4;
     private final Deque<Carta>[] mesa;
-    private final int numPalos = 4;
-    private final int numCartasPorPalo = 12;
     
     public Mesa(){
-        mesa = new Deque[numPalos];
-        for (int i = 0; i < numPalos; i++) {
+        mesa = new Deque[NUM_PALOS];
+        for (int i = 0; i < NUM_PALOS; i++) {
             mesa[i] = new ArrayDeque<>();
         }
-    }
-
-    public int getNumPalos() {
-        return numPalos;
     }
 
     /**
@@ -72,6 +68,26 @@ public class Mesa {
         }
         
     }
+    
+    /**
+     * Funcion utilizada para comprobar si una carta que se pasa como parametro está en la mesa
+     * @param c La carta a comprobar
+     * @return Devuelve verdadero si está la carta en la mesa, en el caso contrario devuelve falso
+     */
+    public boolean estaCarta(Carta c){
+        boolean toret = false;
+        
+        int i = 0;
+        do{
+            for(Carta carta : mesa[i]){
+                if((carta.getNumero() == c.getNumero()) && (carta.getPalo() == c.getPalo()))
+                    toret = true;
+            }
+            i++;
+        }while(!toret && i < NUM_PALOS);
+        
+        return toret;
+    }
 
     
     /**
@@ -81,10 +97,10 @@ public class Mesa {
     @Override
     public String toString(){
 
-        int [][] mesaMatriz = new int[numCartasPorPalo][numPalos];
-        for (int i = 0; i < numPalos; i++) {
+        int [][] mesaMatriz = new int[NUM_CARTAS_POR_PALO][NUM_PALOS];
+        for (int i = 0; i < NUM_PALOS; i++) {
             for (Carta c : mesa[i]) {
-                mesaMatriz[12 - c.getNumero()][c.getPalo().ordinal()] = c.getNumero();
+                mesaMatriz[NUM_CARTAS_POR_PALO - c.getNumero()][c.getPalo().ordinal()] = c.getNumero();
             }
         }
 
@@ -100,8 +116,8 @@ public class Mesa {
 
         sb.append("\n");
 
-        for (int i = 0; i < numCartasPorPalo; i++) {
-            for (int j = 0; j < numPalos; j++) {
+        for (int i = 0; i < NUM_CARTAS_POR_PALO; i++) {
+            for (int j = 0; j < NUM_PALOS; j++) {
                 if (mesaMatriz[i][j] != 0) {
                     sb.append(mesaMatriz[i][j]);
                 } else {
