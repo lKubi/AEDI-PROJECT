@@ -13,24 +13,18 @@ public class Juego{
     
     private final IU iu;
     private final List <Jugador> jugadores;
-    private final Carta AS_DE_OROS;
     private final int PUNTOS_POR_PARTIDA;
     private int puntosAsOros;    
     private Baraja laBaraja;
     private Mesa mesaJuego;
-    private Jugador jugadorGanador;
-    private Jugador jugadorPusoAsOros;
     
     public Juego(IU iu){
         this.iu = iu;
         laBaraja = new Baraja();
         jugadores = new LinkedList<>();
-        AS_DE_OROS = new Carta(1, Carta.Palos.OROS);
         mesaJuego = new Mesa();
-        jugadorGanador = null;
         puntosAsOros = 0;
         PUNTOS_POR_PARTIDA = 4;
-        jugadorPusoAsOros = null;
     }
     
     /**
@@ -56,11 +50,13 @@ public class Juego{
         //Cuando tengo la carta elegida, la coloco en la mesa y la saco de la
         //del jugador
         Carta cartaElegida = iu.elegirCartaColocar(j, mesaJuego);
-        if(cartaElegida.equals(AS_DE_OROS)){
-            jugadorPusoAsOros = j;
+        //Compruebo si la carta es el As de Oros para sumarle los puntos al jugador
+        if(cartaElegida.getPalo() == Carta.Palos.OROS && cartaElegida.getNumero() == 1){
+            j.sumarPuntos(puntosAsOros);
         }
         mesaJuego.colocarCartaMesa(cartaElegida);
         j.sacarCartaDeMano(cartaElegida);
+        
     }
     
     /**
@@ -94,9 +90,11 @@ public class Juego{
      * @param jugadorInicial jugador que empieza la partida
      * @return jugador ganador de la partida
      */
-    private void jugarTurnos(Jugador jugadorInicial){
+    private Jugador jugarTurnos(Jugador jugadorInicial){
         
         Jugador jugadorActual = jugadorInicial;
+        
+        Jugador toret = null;
         
         //Creo una variable booleana para el control del fin de la partida y creo la mesa       
         
@@ -118,19 +116,21 @@ public class Juego{
             //Entendemos que solo hay un ganador por partida, que es el jugador
             //al que primero se le acaban las cartas
             if(jugadorActual.getNumCartasMano() == 0){
-                jugadorGanador = jugadorActual;
-                jugadorGanador.sumarPuntos(PUNTOS_POR_PARTIDA);
+                jugadorActual.sumarPuntos(PUNTOS_POR_PARTIDA);
                 terminoPartida = true;
+                toret = jugadorActual;
             }
             
             jugadorActual = cambiarTurno(jugadorActual, jugadores);
         }
         
+        return toret;
+        
     }
     
     /**
      * Función para controlar el flujo de la partida
-     * @return verdadero si se puso el AS_DE_OROS o falso en caso contrario
+     * @return verdadero si se puso el As de Oros o falso en caso contrario
      */
     private boolean jugarPartida(){
         int numJugadores = jugadores.size();
@@ -154,12 +154,12 @@ public class Juego{
 
         //En el método jugarTurnos se juega todo el juego hasta que un jugador se
         //queda sin cartas y ese es guardado como jugadorGanador
-        jugarTurnos(jugadorInicial);
+        Jugador jugadorGanador = jugarTurnos(jugadorInicial);
 
         //Mostramos el fin de la partida y al jugador ganador
         iu.mostrarGanador(jugadorGanador, mesaJuego);
         
-        return mesaJuego.estaCarta(AS_DE_OROS);
+        return mesaJuego.estaAsDeOros();
   
     }  
     
@@ -167,7 +167,6 @@ public class Juego{
      * Función utilizada para controlar el flujo del Juego
      */
     private void jugarJuego(){
-        boolean estaAsDeOros;
         do{
             iu.siguienteJuego();
             puntosAsOros += 2;
@@ -176,10 +175,8 @@ public class Juego{
             for(Jugador j : jugadores){
                 j.limpiarMano();
             }
-            estaAsDeOros = jugarPartida();
-        }while(!estaAsDeOros);
+        }while(!jugarPartida());
         
-        jugadorPusoAsOros.sumarPuntos(puntosAsOros);
     }
      
     /**
@@ -197,6 +194,6 @@ public class Juego{
      
         jugarJuego();
         
-        iu.mostrarPuntos(jugadores);
+        iu.mostrarGanadorPorPuntos(jugadores);
     }
 }

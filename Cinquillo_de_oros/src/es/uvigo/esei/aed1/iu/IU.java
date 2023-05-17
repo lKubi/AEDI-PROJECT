@@ -218,19 +218,35 @@ public class IU {
      * Función utilizada para mostrar los puntos de los jugadores una vez termina la partida
      * @param jugadores Lista de Jugadores
      */
-    public void mostrarPuntos(List<Jugador> jugadores){
+    public void mostrarGanadorPorPuntos(List<Jugador> jugadores){
         //Ordeno la lista gracias a implementar la interfaz Comparable en la clase Jugador
-        Collections.sort(jugadores);
         
-        System.out.println("Posicion\tNombre\t\tPuntos");
-        int posicion = 1;
+        System.out.println("Nombre\t\tPuntos");
         
         for(Jugador j : jugadores){
-            System.out.println(posicion + "\t\t" + j.getNombre() + "\t\t" + j.getPuntos());
-            posicion++;
+            System.out.println(j.getNombre() + "\t\t" + j.getPuntos());
         }
         
         System.out.println("\n\nJuego Terminado!");
+        
+        List<String> listaGanadores = new LinkedList<>();
+        int puntuacionGanadora = jugadores.get(0).getPuntos();
+        
+        for(Jugador j : jugadores){
+            if(j.getPuntos() >= puntuacionGanadora){
+                if(j.getPuntos() > puntuacionGanadora){
+                    listaGanadores = new LinkedList<>();
+                    puntuacionGanadora = j.getPuntos();
+                }
+                listaGanadores.add(j.getNombre());
+            }
+        }
+        
+        System.out.println("Ganador/es:");
+        for(String s : listaGanadores){
+            System.out.println(s);
+        }
+        
     }
     
 }
