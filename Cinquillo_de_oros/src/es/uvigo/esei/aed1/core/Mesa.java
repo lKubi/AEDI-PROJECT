@@ -74,19 +74,8 @@ public class Mesa {
      * @param c La carta a comprobar
      * @return Devuelve verdadero si está la carta en la mesa, en el caso contrario devuelve falso
      */
-    public boolean estaCarta(Carta c){
-        boolean toret = false;
-        
-        int i = 0;
-        do{
-            for(Carta carta : mesa[i]){
-                if((carta.getNumero() == c.getNumero()) && (carta.getPalo() == c.getPalo()))
-                    toret = true;
-            }
-            i++;
-        }while(!toret && i < NUM_PALOS);
-        
-        return toret;
+    public boolean estaAsDeOros(){
+        return mesa[Carta.Palos.OROS.ordinal()].getLast().getNumero() == 1;
     }
 
     

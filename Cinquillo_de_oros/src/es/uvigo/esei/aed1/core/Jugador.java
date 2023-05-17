@@ -9,7 +9,7 @@ import java.util.*;
 
 
 
-public class Jugador implements Comparable <Jugador>{
+public class Jugador{
     
     private String nombre;
     private List<Carta> mano;
@@ -95,21 +95,7 @@ public class Jugador implements Comparable <Jugador>{
         }
         
         return listaCartas;
-    }    
-    
-    /**
-     * Función que se implementa de la interfaz Comparable. Para usar el 
-     * Collections.sort() para ordenar a los jugadores por sus puntos
-     * 
-     * @param otroJugador para comparar
-     * @return Devuelve 0 si 2 jugadores tienen los mismos puntos. Si this tiene
-     * menos puntos que otroJugador devuelve un valor < 0 y si this tiene más puntos
-     * que otroJugador deeuelve un valor > 0
-     */
-    @Override
-    public int compareTo(Jugador otroJugador) {
-        return Integer.compare(otroJugador.puntos, this.puntos);
-    }    
+    }        
 
     /**
      * Metodo toString() para mostrar al jugador

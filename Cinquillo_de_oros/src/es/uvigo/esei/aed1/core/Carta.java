@@ -48,14 +48,4 @@ public class Carta {
         return sb.toString();
     }
     
-    /**
-     * Función para comparar 2 Cartas (this y c)
-     * @param c carta a comparar con this
-     * @return true si son iguales false en el caso contrario
-     */
-    public boolean equals(Carta c) {
-        return (this.numero == c.getNumero() && this.palo == c.getPalo());
-
-    }
-    
 }
