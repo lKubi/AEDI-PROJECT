@@ -20,11 +20,11 @@ public class Juego{
     
     public Juego(IU iu){
         this.iu = iu;
-        laBaraja = new Baraja();
-        jugadores = new LinkedList<>();
-        mesaJuego = new Mesa();
-        puntosAsOros = 0;
-        PUNTOS_POR_PARTIDA = 4;
+        this.laBaraja = new Baraja();
+        this.jugadores = new LinkedList<>();
+        this.mesaJuego = new Mesa();
+        this.puntosAsOros = 0;
+        this.PUNTOS_POR_PARTIDA = 4;
     }
     
     /**
@@ -47,7 +47,7 @@ public class Juego{
      * @param j Jugador que juega
      */
     private void procesarTurno(Jugador j){
-        //Cuando tengo la carta elegida, la coloco en la mesa y la saco de la
+        //Cuando tengo la carta elegida, la coloco en la mesa y la saco de la mano
         //del jugador
         Carta cartaElegida = iu.elegirCartaColocar(j, mesaJuego);
         //Compruebo si la carta es el As de Oros para sumarle los puntos al jugador
@@ -129,7 +129,7 @@ public class Juego{
     }
     
     /**
-     * Función para controlar el flujo de la partida
+     * Función de los pasos comunes de una partida
      * @return verdadero si se puso el As de Oros o falso en caso contrario
      */
     private boolean jugarPartida(){
@@ -175,6 +175,8 @@ public class Juego{
             for(Jugador j : jugadores){
                 j.limpiarMano();
             }
+        //Se juegan partidas hasta que esté el As de Oros, que es lo que devuelve
+        //el método jugarPartida()
         }while(!jugarPartida());
         
     }

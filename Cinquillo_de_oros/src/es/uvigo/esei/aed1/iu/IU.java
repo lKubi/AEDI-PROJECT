@@ -77,7 +77,6 @@ public class IU {
 
     /**
      * Pide la cantidad de jugadores y sus nombres
-     * 
      * @return Una colección con el nombre de los jugadores
      */
     public Collection<String> pedirDatosJugadores(){
@@ -219,8 +218,6 @@ public class IU {
      * @param jugadores Lista de Jugadores
      */
     public void mostrarGanadorPorPuntos(List<Jugador> jugadores){
-        //Ordeno la lista gracias a implementar la interfaz Comparable en la clase Jugador
-        
         System.out.println("Nombre\t\tPuntos");
         
         for(Jugador j : jugadores){
