@@ -17,7 +17,7 @@ public class Baraja {
     private final int NUM_CARTAS_POR_PALO = 12;
     
     public Baraja(){
-        baraja = new Stack<>();
+        this.baraja = new Stack<>();
         
         for (int i = 0; i < NUM_PALOS; i++) {
             for (int j = 1; j <= NUM_CARTAS_POR_PALO; j++) {
