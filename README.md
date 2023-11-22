@@ -70,7 +70,7 @@ El proyecto a realizar será tutorizado por el/la profesor/a para lo cual se exi
 
 **El hallazgo de copias de entregas supondrá el suspenso de la parte práctica, tanto para el grupo con código original, como para el grupo con código copiado.**
 
-## EVALUACIÓN:
+## EVALUACIÓN (Obtenido 9/10 pts):
 La evaluación constará de dos partes: **3 evaluaciones grupales**, una por cada entrega, en forma de tutoría obligatoria; y **1 evaluación individual** en forma de examen en el ordenador.
 
 1. **Evaluación grupal: tutoría obligatoria** para todos los miembros del grupo, en la que se mostrará la evolución del proyecto y donde el/la profesor/a pondrá preguntar a cada miembro
